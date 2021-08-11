@@ -64,7 +64,7 @@ CORE_BUILD_OPTION=
 IMAGE_VERSION=latest
 BUILD_TARGET=dev
 BUILD_DOCKER_IMAGE_NAME=${DOCKER_IMAGE_PREFIX}-${BUILD_TARGET}
-while getopts a:c:d:k:t:v:h OPT
+while getopts a:c:d:k:K:t:v:h OPT
 do
   case $OPT in
     a  ) # burger-war-core/burger-war-devのdocker buildへの追加オプション引数指定
@@ -79,6 +79,9 @@ do
       ;;
     k  ) # kitのイメージバージョンを指定してビルド
       KIT_VERSION="${OPTARG}"
+      ;;
+    K  ) # kitのイメージリポジトリを指定してビルド
+      KIT_REPO="${OPTARG}"
       ;;
     t  ) # ビルドするターゲットを指定
       BUILD_TARGET="${OPTARG}"
@@ -107,7 +110,7 @@ shift $((OPTIND - 1))
 # burger-war-kitのイメージを取得
 #------------------------------------------------
 set -x
-docker pull ghcr.io/p-robotics-hub/burger-war-kit:${KIT_VERSION}
+docker pull ghcr.io/${KIT_REPO}/burger-war-kit:${KIT_VERSION}
 set +x
 
 # コアイメージ用のDockerfileのビルド
@@ -115,6 +118,7 @@ set +x
 set -x
 docker build \
   ${CORE_BUILD_OPTION} \
+  --build-arg KIT_REPO=${KIT_REPO} \
   --build-arg KIT_VERSION=${KIT_VERSION} \
   ${PROXY_OPTION} \
   -f "${CORE_DOCKER_FILE_PATH}" \

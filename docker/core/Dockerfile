@@ -1,5 +1,6 @@
+ARG KIT_REPO=p-robotics-hub
 ARG KIT_VERSION=latest
-FROM ghcr.io/p-robotics-hub/burger-war-kit:$KIT_VERSION
+FROM ghcr.io/$KIT_REPO/burger-war-kit:$KIT_VERSION
 
 #-------------------------------------------------------------------------------------------------
 # シミュレーション対戦環境/実機環境での実行に必要なパッケージをインストールする
