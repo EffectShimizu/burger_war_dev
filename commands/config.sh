@@ -35,7 +35,7 @@ VNC_X11VNC_ARGS=
 VNC_OPENBOX_ARGS=
 
 # ワークスペースのrootディレクトリのパス
-HOST_WS_DIR=${HOME}/catkin_ws
+HOST_WS_DIR=/home/ec2-user/catkin_ws
 # コンテナ上のワークスペースディレクトリ
 CONTAINER_WS_DIR=/home/developer/catkin_ws
 
