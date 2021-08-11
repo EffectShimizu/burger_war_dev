@@ -33,6 +33,7 @@ env:
   DOCKER_FILE_ROBO: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws/src/burger_war_dev/docker/robo/Dockerfile
   TEST_LOG_ARCHIVE: test_logs-${{ github.run_number }}
   DISPLAY: ':99'
+  KIT_REPO: '0xeffec74'
   KIT_VERSION: latest
 
 # 実行する処理
@@ -85,7 +86,7 @@ jobs:
       # burger-warイメージのビルド
       - name: Build Core Image
         run: |
-          docker build --file ${{ env.DOCKER_FILE_CORE }} --tag ${{ env.IMAGE_NAME_CORE }} --build-arg KIT_VERSION=${{ env.KIT_VERSION }} ${{ env.DOCKER_ROOT_DIR }}
+          docker build --file ${{ env.DOCKER_FILE_CORE }} --tag ${{ env.IMAGE_NAME_CORE }} --build-arg KIT_REPO=${{ env.KIT_REPO }} --build-arg KIT_VERSION=${{ env.KIT_VERSION }} ${{ env.DOCKER_ROOT_DIR }}
 
       - name: Build Sim Image
         run: |
