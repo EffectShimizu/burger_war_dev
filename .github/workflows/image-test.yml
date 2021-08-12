@@ -24,11 +24,13 @@ env:
   DOCKER_BUILDKIT: 1
   RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
   IMAGE_NAME_CORE: burger-war-core
+  IMAGE_NAME_VNC: burger-war-vnc
   IMAGE_NAME_SIM: burger-war-sim
   IMAGE_NAME_ROBO: burger-war-robo
   WORKSPACE_DIR: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws
   DOCKER_ROOT_DIR: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws/src/burger_war_dev/docker
   DOCKER_FILE_CORE: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws/src/burger_war_dev/docker/core/Dockerfile
+  DOCKER_FILE_VNC: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws/src/burger_war_dev/docker/vnc/Dockerfile
   DOCKER_FILE_SIM: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws/src/burger_war_dev/docker/sim/Dockerfile
   DOCKER_FILE_ROBO: ${HOME}/work/burger_war_dev/burger_war_dev/catkin_ws/src/burger_war_dev/docker/robo/Dockerfile
   TEST_LOG_ARCHIVE: test_logs-${{ github.run_number }}
@@ -87,6 +89,10 @@ jobs:
       - name: Build Core Image
         run: |
           docker build --file ${{ env.DOCKER_FILE_CORE }} --tag ${{ env.IMAGE_NAME_CORE }} --build-arg KIT_REPO=${{ env.KIT_REPO }} --build-arg KIT_VERSION=${{ env.KIT_VERSION }} ${{ env.DOCKER_ROOT_DIR }}
+
+      - name: Build Sim Image
+        run: |
+          docker build --file ${{ env.DOCKER_FILE_VNC }} --tag ${{ env.IMAGE_NAME_VNC }} ${{ env.DOCKER_ROOT_DIR }}
 
       - name: Build Sim Image
         run: |
@@ -165,6 +171,9 @@ jobs:
           # burger-war-coreのプッシュ
           docker tag ${{ env.IMAGE_NAME_CORE }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME_CORE }}
           docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME_CORE }}
+          # burger-war-vncのプッシュ
+          docker tag ${{ env.IMAGE_NAME_VNC }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME_VNC }}
+          docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME_VNC }}
           # burger-war-simのプッシュ
           docker tag ${{ env.IMAGE_NAME_SIM }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME_SIM }}
           docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME_SIM }}
